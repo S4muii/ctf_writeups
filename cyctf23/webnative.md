@@ -90,14 +90,14 @@ uint export::check_input(char *input)
 That's way more readable right . now from now on it's just good old fashioned c code reverse
 
 - Observe that there's an address `ram:0x10000` which marks the start of a payload of some kind 
-+ Observe that the loop is 0xc5 iterations . each time we get two bytes . so basically the payload size is 0x18a bytes we'll call this the reciepe 
-* For each iteration we have an OP_byte and a OPERAND_byte . the OP specifies what to do and the DATA byte specifies the operand 
++ Observe that the loop is 0xc5 iterations . each time we get two bytes . so basically the payload size is 0x18a bytes we'll call this `Reciepe`
+* For each iteration we have an OP_byte which specifies what to do and a OPERAND_byte.
     - if the operand is 1:
-        calculate the input[payload_idx]^operand
+        - calculate the input[payload_idx]^operand
     + if the operand is 2:
-        change the payload_idx = operand
+        + change the payload_idx = operand
     - if operand is 3:
-        check the previous calculation to be equal the new data byte if not increment the incorrect_chars which is gonna determine the return value
+        + check the previous calculation to be equal the new data byte if not increment the incorrect_chars which is gonna determine the return value
 
 
 and with that I leave you guys with my solve script and the flag
