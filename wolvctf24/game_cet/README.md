@@ -9,7 +9,7 @@ Competition URL: https://wolvctf.io/
 I wrote a tennis client with the bleeding-edge mitigations, that means it's unhackable, right?
 
 ## Game, CET, Match
-in this challenge we are giving the following binary [chall](./chall) . No Dockerfile , no libc, no nothing.
+in this challenge we are giving the following binary [chal](./chal) . No Dockerfile , no libc, no nothing.
 
 so first of all let's try checksec
 
