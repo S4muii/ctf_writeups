@@ -155,7 +155,7 @@ recall from the beginning we can call any function pointers relative to the bina
 ![gif_trying_execve](assets/gif_trying_execve.gif)
 
 
-well . this was an epic fail right! . we have control over the first argument to the function given that it's a pointer . we can put arbitiry data that goes up to `0xf0` bytes . but we don't have control over the `$RSI` . we'll have to do with whatever that was left in it . that's okay though . let's look at `$RDX` tho . 
+well . this was an epic fail right! . we have control over the first argument to the function given that it's a pointer . we can put arbitiry data that goes up to `0xf0` bytes . but we don't have control over the `$RSI` . we'll have to do with whatever that was left in it . that's okay we can leave that for later . the main worry is about `$RDX` . look at this . that's the part that calls the vtable[option]. 
 
 
 ```as
@@ -176,10 +176,10 @@ well . this was an epic fail right! . we have control over the first argument to
         00101540 ff d2           CALL       RDX
 ```
 
-Looks like the `$RDX` will always have a pointer to the the function we're calling . which in this case gonna be `execve` . which is not gonna be compatible with the `envp` . recall that `envp` is an array of char*. but I still didn't get it! . after a bit of experimentation using a toy example of creating envp/argv and using them . I came to the conclusion that `$RDX` will never work . we needed control over `$RDX` either to set it properly to an array of strings that end with a `NULL` or to be `NULL` itself . and we can't do either. but not all hope is lost .
+Looks like the `$RDX` will always have a pointer to the the function we're calling . which in this case gonna be `execve` . and is not gonna be compatible with the `envp` . recall that `envp` is an array of char*. but I still didn't get it! . after a bit of experimentation using a toy example of creating envp/argv and using them . I came to the conclusion that `$RDX` will never work . we needed control over `$RDX` either to set it properly to an array of strings that end with a `NULL` or to be `NULL` itself . and we can't do either. but not all hope is lost .
 
 ### Recap
-we can call any function of the `GOT` we have control over `$RDI` if the target function needs a pointer and that's about all the control we have here . a very obvious target would be `system("/bin/sh");` . but we need to leak libc and put that system function pointer somewhere relative to the binary image . that's where the functionality of `swing/lob/taunt` come into play . they can modify the `banter` global variable which in a constant offset from our vtable `ptrs`. 
+we can call any function of the `GOT` and we have control over `$RDI` if the target function needs a pointer and that's about all the control we have here . a very obvious target would be `system("/bin/sh");` . but we need to leak libc and put that system function pointer somewhere relative to the binary image . that's where the functionality of `swing/lob/taunt` come into play . they can modify the `banter` global variable which in a constant offset from our vtable `ptrs`. 
 
 so now all that's left is the libc leak . we have printf in the GOT so we can use that with a controlled `$RDI` to leak the stack and find out where the libc addresses are . usually with `ASLR` and `PIE` enabled we can assume the following
 
@@ -189,7 +189,7 @@ so now all that's left is the libc leak . we have printf in the GOT so we can us
 
 Those are not a requirement . but it's the usual behavior of the loader and the Linux kernel's memory management subsystem.
 
-we can't leak libc blindly but we can leak binary addresses blindly though since the binary image is small enough we can guess the binary image base without too much of a hassle.
+We can't leak libc blindly but we can leak binary addresses blindly though since the binary image is small enough we can guess the binary image base without too much of a hassle.
  
 ### Game Plan
 
