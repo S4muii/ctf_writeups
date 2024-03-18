@@ -282,4 +282,4 @@ p.interactive()
 # wctf{y0u_c4nt_b3_s3r1ous_appr0ved_g4dg3t5_0nly}
 ```
 
-[congratz](./assets/congratz.gif)
+![congratz](./assets/congratz.gif)
