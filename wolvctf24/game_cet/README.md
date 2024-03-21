@@ -6,8 +6,6 @@ Competition URL: https://wolvctf.io/
 | --------- | -------- | ------ | ---- | ------
 | Game, CET, Match | pwn | 493 | wctf{y0u_c4nt_b3_s3r1ous_appr0ved_g4dg3t5_0nly} | CET,Format Strings,Vtable Hijacking
 
-I wrote a tennis client with the bleeding-edge mitigations, that means it's unhackable, right?
-
 ## Game, CET, Match
 in this challenge we are giving the following binary [chal](./chal) . No Dockerfile , no libc, no nothing.
 
